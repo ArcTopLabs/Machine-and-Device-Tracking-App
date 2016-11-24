@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css" crossorigin="anonymous">
+
+        <link href="css/starter-template.css" rel="stylesheet">
+
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script>
+
+            $(document).ready(function () {
+                var mytable = $('#example').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": false,
+                    "info": true,
+                    "autoWidth": false,
+                    "sDom": 'lfrtip'
+                });
+                $("button").click(function () {
+
+                var SendInfo = {"sort": {"created_date": "desc"}};
+                    var dataString = JSON.stringify(SendInfo);
+
+                    var SendInfo = { "sort": {
+                            "name": "desc"
+                        }};
+                    mytable.clear();
+                    mytable.draw();
+//                    alert("canvas clear");
+                    $.ajax({
+                        url: 'http://api.masterdatanode.com/unix/track/find/',
+                        type: 'post',
+//                        data: {},
+                       data: dataString,
+                        headers: {
+                            "access_token": '####Access_Token########',   //####Access_Token########
+                            "Content-Type": 'application/json'
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+
+                            console.info(JSON.stringify(data));
+
+                            //$("#test_div").html(JSON.stringify(data));
+                            $("#test_div").show();
+                            var obj = JSON.parse(JSON.stringify(data));
+                            /* for(var i = 0; i < obj.result.length; i++) {
+                             var obj1 = data[i];
+                             
+                             console.log(obj1.id);
+                             } */
+                            //var mytable =  $('#example').DataTable();
+                            var result = $.parseJSON(JSON.stringify(obj.result));
+
+
+
+                            $.each(result, function (k, jsonObject) {
+                                //display the key and value pair
+                                //alert(k + ' is ' + jsonObject);
+
+                                var result12 = [];
+                                result12.push(jsonObject.machine);
+                                result12.push(jsonObject.latitude);
+                                result12.push(jsonObject.longitude);
+                                result12.push(jsonObject.created_date);
+
+
+                                // .... add all the values required
+                                console.info(result12);
+
+
+
+                                //var jsdata = JSON.parse(v);
+
+                                mytable.row.add(result12);
+
+
+                            });
+
+                            mytable.draw();
+                            //mytable.draw();
+                            console.info(JSON.stringify(obj.result));
+
+
+
+
+
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+
+
+        <div class="container " style="text-align: center;">
+
+            <div >
+                <h1>Form data listing</h1>
+            </div>
+            <div >
+                <button class="btn btn-info">display listing</button>
+            </div>
+            <div class=" col-lg-12 " >
+                Only 10 data get display out of totalCount
+            </div>
+
+            <div id="test_div" style="display:none" class="col-lg-12">
+                <table id="example" class="table" width="100%">
+
+                    <thead>
+                        <tr>
+                            <th>Machine</th>
+                            <th>Latitude</th>
+                            <th>Logitude</th>
+                            <th>DateOfCreation</th>
+
+                        </tr>
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </body>
+</html>

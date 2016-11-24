@@ -1,0 +1,214 @@
+<html>
+    <head>
+
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+
+        <!--Load the AJAX API-->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css" crossorigin="anonymous">
+        <link href="../css/style.css" rel="stylesheet" media="screen, print">
+        <link href="../css/navcustom.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="css/starter-template.css">
+        <style>
+            /* Always set the map height explicitly to define the size of the div
+             * element that contains the map. */
+            #map {
+                height: 100%;
+            }
+            /* Optional: Makes the sample page fill the window. */
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+
+
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script>
+            var dataPop = [["Country", "Population"]];
+            var dataAr = [["Country", "Population"]];
+            var bubbleChart = [['Country', 'Rank', 'PercentageOfWorld', 'Country', 'Population']];
+            var comboChart = [['Machine', 'Total', 'Used', 'Available']];
+            google.charts.load('current', {'packages': ['corechart']});
+            $(document).ready(function () {
+                $("button").click(function () {
+                    var SendInfo = {"limit": 5, "sort": {"created_date": "desc"}};
+                    var dataString = JSON.stringify(SendInfo);
+
+                    //call customer
+                    $.ajax({
+                        url: 'http://api.masterdatanode.com/unix/memory/find/',
+                        type: 'post',
+                        data: dataString,
+                        headers: {
+                            "access_token": '#######Access_Token########',
+                            "Content-Type": 'application/json'
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+//                            console.info(JSON.stringify(data));
+//                            $("#test_div").html(JSON.stringify(data));
+//                            alert(JSON.stringify(data));
+                            var population = data['result'];
+//                            var myStringArray = ["Hello", "World"];
+                            var obj = {a: 1, b: 2};
+                            for (var key in population) {
+                                if (population.hasOwnProperty(key)) {
+                                    var val = population[key];
+                                    var date_time = val['created_date'];
+                                    var date = date_time.substr(0, date_time.indexOf(' ')); // "72"
+
+//                                    alert(JSON.stringify(val['Country']));
+                                    comboChart.push([val['machine'] + "|" + val['used_per'] + "|" + date, parseInt(val['total']), parseInt(val['used']), parseInt(val['available'])]);
+//                                    alert(JSON.stringify(dataPop));
+                                }
+                            }
+                            // Load the Visualization API and the corechart package.
+
+
+                            // Set a callback to run when the Google Visualization API is loaded.
+//                            google.charts.setOnLoadCallback(drawChart);
+//                            google.charts.setOnLoadCallback(drawBar);
+//                            google.charts.setOnLoadCallback(drawSeriesChart);
+//                            google.charts.setOnLoadCallback(drawColumnChart);
+
+//                            google.charts.setOnLoadCallback(drawDonutChart);
+//                            google.charts.setOnLoadCallback(draw3dChart);
+                            google.charts.setOnLoadCallback(drawComboChart);
+
+
+                        }
+                    });
+
+
+
+                });
+            });
+
+
+
+
+
+
+
+        </script>
+    </head>
+
+    <body >
+        <!-- Navigation -->
+
+        <div class="intro-header">
+            <!--Div that will hold the pie chart-->
+            <div class="container" style="text-align: center">
+
+                <div >
+                    <h1>Dashboard charts</h1>
+                    <p class="lead">With MasterDataNode you don't require server<br> A standalone html page with CSS and JS, suffice to build Chart application</p>
+                </div>
+                <div id="map"></div>
+                <script>
+
+                    function initMap() {
+
+                        var SendInfo = {"limit": 2, "sort": {"created_date": "desc"}};
+                        var dataString = JSON.stringify(SendInfo);
+                        var myLatLng;
+                        var locations = new Array();
+//call customervar myLatLng
+                        $.ajax({
+                            url: 'http://api.masterdatanode.com/unix/track/find/',
+                            type: 'post',
+                            data: dataString,
+                            headers: {
+                                "access_token": '####Access_Token########', //####Access_Token########
+                                "Content-Type": 'application/json'
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                console.info(JSON.stringify(data));
+//                            $("#test_div").html(JSON.stringify(data));
+//                            alert(JSON.stringify(data));
+                                var population = data['result'];
+//                            var myStringArray = ["Hello", "World"];
+                                var obj = {a: 1, b: 2};
+                                for (var key in population) {
+                                    if (population.hasOwnProperty(key)) {
+                                        var val = population[key];
+                                        var date_time = val['created_date'];
+                                        var date = date_time.substr(0, date_time.indexOf(' ')); // "72"
+                                        console.info(val['latitude']);
+                                        myLatLng = {lat: parseFloat(val['latitude']), lng: parseFloat(val['longitude'])};
+                                        console.info(myLatLng);
+                                        locations.push([val['machine'], parseFloat(val['latitude']), parseFloat(val['longitude'])]);
+                                    console.info(locations);
+//                                        comboChart.push([val['machine'] + "|" + date, parseInt(val['total']), parseInt(val['used']), parseInt(val['available'])]);
+//                                    alert(JSON.stringify(dataPop));
+                                    }
+                                }
+                                // Load the Visualization API and the corechart package.
+
+//                        var myLatLng = {lat: -25.363, lng: 131.044};
+
+                                var map = new google.maps.Map(document.getElementById('map'), {
+                                    zoom: 8,
+                                    center: myLatLng
+                                });
+
+//                                var marker = new google.maps.Marker({
+//                                    position: myLatLng,
+//                                    map: map,
+//                                    title: 'Track My Machine!'
+//                                });
+
+
+                                //Multiple marker
+                                var infowindow = new google.maps.InfoWindow();
+
+                                var marker, i;
+
+                                for (i = 0; i < locations.length; i++) {
+                                    console.info('----' +locations[i][0]);
+                                    console.info(locations[i][1]);
+                                    console.info(locations[i][2] + '----');
+                                    marker = new google.maps.Marker({
+                                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                                        map: map
+                                    });
+
+                                    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                                        return function () {
+                                            infowindow.setContent(locations[i][0]);
+                                            infowindow.open(map, marker);
+                                        }
+                                    })(marker, i));
+                                }
+
+
+                            }
+                        });
+
+
+
+
+                    }
+                </script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=######GoogleMapAPI###########&callback=initMap"
+                async defer></script>
+
+
+
+            </div>
+        </div>
+    </body>
+</html>
