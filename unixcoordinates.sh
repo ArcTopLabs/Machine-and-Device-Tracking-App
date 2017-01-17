@@ -25,5 +25,5 @@ latitude=${arra[0]}
 longitude=${arra[1]}
 
 echo coordinate are as follow latidude $latitude longitude $longitude;
-curl -H "access_token: ####Access_Token########" -H "Content-Type: application/json" -H "user-agent : chrome/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko)" --data "{ \"data\" : [{ \"latitude\" : \"$latitude\", \"longitude\" : \"$longitude\", \"machine\" : \"Mac OS\" }]}" -v -k https://api.masterdatanode.com/unix/track/save/
+curl -H "access_token: ####Access_Token########" -H "Content-Type: application/json" -H "user-agent : chrome/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko)" --data "{ \"data\" : [{ \"latitude\" : \"$latitude\", \"longitude\" : \"$longitude\", \"machine\" : \"Mac OS\" }]}" -v -k https://api.masterdatanode.com/###AppName####/track/save/
 
