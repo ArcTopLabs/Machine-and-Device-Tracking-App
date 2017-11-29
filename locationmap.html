@@ -15,9 +15,6 @@
             /* Always set the map height explicitly to define the size of the div
              * element that contains the map. */
             #map {
-<<<<<<< HEAD:locationmap.html
-                height: 80%;
-=======
                 height: 100%;
             }
             /* Optional: Makes the sample page fill the window. */
@@ -32,76 +29,7 @@
 
         <!-- Latest compiled and minified JavaScript -->
         <script src="js/bootstrap.min.js" crossorigin="anonymous"></script>
-        <script>
-            var dataPop = [["Country", "Population"]];
-            var dataAr = [["Country", "Population"]];
-            var bubbleChart = [['Country', 'Rank', 'PercentageOfWorld', 'Country', 'Population']];
-            var comboChart = [['Machine', 'Total', 'Used', 'Available']];
-            google.charts.load('current', {'packages': ['corechart']});
-            $(document).ready(function () {
-                //Not used in this dashboard
-                $("button").click(function () {
-                    var SendInfo = {"limit": 5, "sort": {"created_date": "desc"}};
-                    var dataString = JSON.stringify(SendInfo);
-
-                    //call customer
-                    $.ajax({
-                        url: 'http://api.masterdatanode.com/unix/memory/find/',
-                        type: 'post',
-                        data: dataString,
-                        headers: {
-                            "access_token": '#######Access_Token########',
-                            "Content-Type": 'application/json'
-                        },
-                        dataType: 'json',
-                        success: function (data) {
-//                            console.info(JSON.stringify(data));
-//                            $("#test_div").html(JSON.stringify(data));
-//                            alert(JSON.stringify(data));
-                            var population = data['result'];
-//                            var myStringArray = ["Hello", "World"];
-                            var obj = {a: 1, b: 2};
-                            for (var key in population) {
-                                if (population.hasOwnProperty(key)) {
-                                    var val = population[key];
-                                    var date_time = val['created_date'];
-                                    var date = date_time.substr(0, date_time.indexOf(' ')); // "72"
-
-//                                    alert(JSON.stringify(val['Country']));
-                                    comboChart.push([val['machine'] + "|" + val['used_per'] + "|" + date, parseInt(val['total']), parseInt(val['used']), parseInt(val['available'])]);
-//                                    alert(JSON.stringify(dataPop));
-                                }
-                            }
-                            // Load the Visualization API and the corechart package.
-
-
-                            // Set a callback to run when the Google Visualization API is loaded.
-//                            google.charts.setOnLoadCallback(drawChart);
-//                            google.charts.setOnLoadCallback(drawBar);
-//                            google.charts.setOnLoadCallback(drawSeriesChart);
-//                            google.charts.setOnLoadCallback(drawColumnChart);
-
-//                            google.charts.setOnLoadCallback(drawDonutChart);
-//                            google.charts.setOnLoadCallback(draw3dChart);
-                            google.charts.setOnLoadCallback(drawComboChart);
-
-
-                        }
-                    });
-
-
-
-                });
-            });
-
-
-
->>>>>>> origin/master:unixdashboard.html
-
-            }
-
-        </style>
-
+           
 
     </head>
 
@@ -130,11 +58,7 @@
                         var locations = new Array();
 //call customervar myLatLng
                         $.ajax({
-<<<<<<< HEAD:locationmap.html
                             url: 'http://api.masterdatanode.com/##APPNAME##/track/find/',
-=======
-                            url: 'http://api.masterdatanode.com/####AppName########/track/find/',
->>>>>>> origin/master:unixdashboard.html
                             type: 'post',
                             data: dataString,
                             headers: {
