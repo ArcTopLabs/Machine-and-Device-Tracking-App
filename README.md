@@ -15,7 +15,7 @@ ArcTop Labs : MasterDataNode Data Solution
 <p>Copy and Replace the access_token against ######GoogleMapAPI########### string on locationmap.html file</p>
             
 
-![alt text](https://github.com/ArcTopLabs/MemoryDashboard/blob/master/screenshot/Ram%20Memory%20dashboard.png)
-![alt text](https://github.com/ArcTopLabs/MemoryDashboard/blob/master/screenshot/Screen%20Shot%202017-11-29%20at%205.50.19%20PM.png)
+![alt text](https://github.com/ArcTopLabs/Machine-and-Device-Tracking-App/blob/master/screenshot/Machine%20n%20Device%20Tracking%20App.png)
+![alt text](https://github.com/ArcTopLabs/Machine-and-Device-Tracking-App/blob/master/screenshot/Screen%20Shot%202017-11-29%20at%206.53.29%20PM.png)
 
 
